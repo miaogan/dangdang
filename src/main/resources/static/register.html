@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>注册页面</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<div id="app">
+  <h1>注册页面</h1>
+  <form @submit.prevent="register">
+    <div>
+      <label for="email">邮箱：</label>
+      <input type="email" id="email" v-model="user.email" required>
+    </div>
+    <div>
+      <label for="nickname">昵称：</label>
+      <input type="text" id="nickname" v-model="user.nickname" required>
+    </div>
+    <div>
+      <label for="password">密码：</label>
+      <input type="password" id="password" v-model="user.password" required>
+    </div>
+    <div>
+      <label for="captcha">验证码：</label>
+      <input type="text" id="captcha" v-model="captcha" required>
+      <img :src="imageSrc" @click="refreshCaptcha">
+    </div>
+    <button type="submit">注册</button>
+  </form>
+</div>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+      user: {
+        email: '',
+        nickname: '',
+        password: ''
+      },
+      captcha: '',
+      imageSrc: ''
+    },
+    methods: {
+      register() {
+        axios.post('/user/register', {
+          user: this.user,
+          captcha: this.captcha
+        }).then(response => {
+          alert(response.data.msg);
+        }).catch(error => {
+          alert(error.response.data.msg);
+        });
+      },
+      refreshCaptcha() {
+        this.imageSrc = '/user/image?' + new Date().getTime();
+      }
+    },
+    mounted() {
+      this.refreshCaptcha();
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ac.dang_dang.mapper.TCategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.ac.dang_dang.entity.TCategory">
+            <id property="categoryId" column="category_id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="levels" column="levels" jdbcType="INTEGER"/>
+            <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="categoryWithChildResultMap" extends="BaseResultMap"
+               type="com.ac.dang_dang.DTO.CategoryDTO">
+        <collection property="childCategoryList" ofType="com.ac.dang_dang.entity.TCategory" autoMapping="true">
+            <id column="c_category_id" property="categoryId"/>
+            <result column="c_name" property="name"/>
+            <result column="c_levels" property="levels"/>
+            <result column="c_parent_id" property="parentId"/>
+        </collection>
+    </resultMap>
+    <select id="selectCategoryWithChilds" resultMap="categoryWithChildResultMap">
+        select p.*, c.category_id c_category_id, c.name c_name, c.levels c_levels, c.parent_id c_parent_id
+        from t_category p
+                 left join t_category c
+                           on p.category_id = c.parent_id
+        where p.parent_id is null;
+    </select>
+
+</mapper>

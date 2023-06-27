@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="gbk"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+   xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"> 
+   
+   <diskStore path="java.io.temper"/>  
+  
+    <!--  
+    Mandatory Default Cache configuration. These settings will be applied to caches  
+    created programmtically using CacheManager.add(String cacheName)  
+    -->  
+    <!--  
+       maxElementsInMemory：缓存最大的对象个数。  
+       eternal:对象是否永久有效，一但设置了，timeout将不起作用。  
+       overflowToDisk：当内存中对象数量达到maxElementsInMemory时，Ehcache将会对象写到磁盘中。  
+       maxElementsOnDisk：硬盘最大缓存个数。  
+       memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。
+       	默认策略是LRU  （last resently used 最近最少使用）。
+       	你可以设置为FIFO（first in first out先进先出）
+       	或是LFU(lest requently used 较少使用)。  
+    -->  
+    <defaultCache
+            maxElementsInMemory="100"
+            eternal="false"  
+            overflowToDisk="true"
+            maxElementsOnDisk="10000"
+            memoryStoreEvictionPolicy="LRU"  
+            />  
+</ehcache>  

@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dangdb
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 100MB
+  cache:
+    type: ehcache
+    ehcache:
+      config: classpath:ehcache.xml
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
+file:
+  upload:
+    path: E:\IdeaProjects\dang_dang\src\main\resources\static\img\upload

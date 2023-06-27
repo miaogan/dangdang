@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ac.dang_dang.mapper.TBookMapper">
+
+    <resultMap id="BaseResultMap" type="com.ac.dang_dang.entity.TBook">
+            <id property="bookId" column="BOOK_ID" jdbcType="INTEGER"/>
+            <result property="bookName" column="book_name" jdbcType="VARCHAR"/>
+            <result property="author" column="AUTHOR" jdbcType="VARCHAR"/>
+            <result property="cover" column="COVER" jdbcType="VARCHAR"/>
+            <result property="press" column="PRESS" jdbcType="VARCHAR"/>
+            <result property="pressDate" column="PRESS_DATE" jdbcType="DATE"/>
+            <result property="edition" column="EDITION" jdbcType="VARCHAR"/>
+            <result property="printDate" column="PRINT_DATE" jdbcType="DATE"/>
+            <result property="impression" column="IMPRESSION" jdbcType="VARCHAR"/>
+            <result property="isbn" column="ISBN" jdbcType="VARCHAR"/>
+            <result property="wordNum" column="WORD_NUM" jdbcType="INTEGER"/>
+            <result property="pageNum" column="PAGE_NUM" jdbcType="INTEGER"/>
+            <result property="sizes" column="SIZES" jdbcType="VARCHAR"/>
+            <result property="paper" column="PAPER" jdbcType="VARCHAR"/>
+            <result property="pack" column="PACK" jdbcType="VARCHAR"/>
+            <result property="price" column="PRICE" jdbcType="FLOAT"/>
+            <result property="dprice" column="DPRICE" jdbcType="FLOAT"/>
+            <result property="createDate" column="CREATE_DATE" jdbcType="DATE"/>
+            <result property="editorRecommend" column="EDITOR_RECOMMEND" jdbcType="VARCHAR"/>
+            <result property="contentAbstract" column="CONTENT_ABSTRACT" jdbcType="VARCHAR"/>
+            <result property="authorAbstract" column="AUTHOR_ABSTRACT" jdbcType="VARCHAR"/>
+            <result property="director" column="DIRECTOR" jdbcType="VARCHAR"/>
+            <result property="mediaCommentary" column="MEDIA_COMMENTARY" jdbcType="VARCHAR"/>
+            <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+            <result property="sale" column="SALE" jdbcType="INTEGER"/>
+            <result property="stock" column="STOCK" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getRecommendBooks" resultType="com.ac.dang_dang.entity.TBook">
+        select * from t_book order by rand()
+    </select>
+    <select id="getHotBooks" resultType="com.ac.dang_dang.entity.TBook">
+        select * from t_book order by sale desc
+    </select>
+    <select id="getNewBooks" resultType="com.ac.dang_dang.entity.TBook">
+        select * from t_book order by create_date desc
+    </select>
+    <select id="getNewHotSaleBooks" resultType="com.ac.dang_dang.entity.TBook">
+        select * from t_book order by sale desc,CREATE_DATE desc
+    </select>
+    <select id="selectBooksByCategoryId" resultType="com.ac.dang_dang.entity.TBook">
+        select * from t_book
+        <where>
+            <if test="cid != null">
+                category_id = #{cid}
+            </if>
+            <if test="cid == null">
+                category_id in (
+                select category_id
+                from t_category
+                where parent_id = #{pid}
+                )
+            </if>
+        </where>
+    </select>
+    <select id="selectByName" resultType="com.ac.dang_dang.entity.TBook">
+        select * from t_book
+                 <where>
+                     <if test="bookName != null and bookName != ''">
+                         book_name LIKE CONCAT('%', #{bookName}, '%')
+                     </if>
+                 </where>
+    </select>
+</mapper>
