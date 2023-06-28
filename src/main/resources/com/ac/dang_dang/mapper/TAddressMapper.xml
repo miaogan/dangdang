@@ -15,6 +15,33 @@
             <result property="address" column="address" jdbcType="VARCHAR"/>
             <result property="userId" column="user_id" jdbcType="INTEGER"/>
     </resultMap>
-
+        <update id="update">
+            update t_address
+            <set>
+                <if test="name != null and name!=''">
+                    name=#{name},
+                </if>
+                <if test="mobile !=null and mobile !=''">
+                    mobile=#{mobile},
+                </if>
+                <if test="province != null and province !=''">
+                    province=#{province},
+                </if>
+                <if test="city !=null and city!=''">
+                    city=#{city},
+                </if>
+                <if test="district !=null and district != ''">
+                    district=#{district},
+                </if>
+                <if test="town !=null and town !=''">
+                    town=#{town},
+                </if>
+                <if test="address !=null and address !=''">
+                    address=#{address}
+                </if>
+            </set>
+            where
+            address_id=#{addressId}
+        </update>
 
 </mapper>

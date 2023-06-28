@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 /**
 * @author 75679
 * @description 针对表【t_address】的数据库操作Mapper
@@ -13,9 +15,13 @@ import org.apache.ibatis.annotations.Select;
 */
 @Mapper
 public interface TAddressMapper extends BaseMapper<TAddress> {
-    @Select("select * from  t_address where name=#{name} and mobile=#{mobile} and province={province} and city=#{city} and district=#{district} and town=#{town} " +
+
+    Integer update(TAddress address);
+    @Select("select * from t_address where user_id=#{userId}")
+    List<TAddress> getAll(String userId);
+    @Select("select * from  t_address where name=#{name} and mobile=#{mobile} and province=#{province} and city=#{city} and district=#{district} and town=#{town} " +
             "and address=#{address} and user_id=#{userId}")
-    TAddress getByname(TAddress address);
+    TAddress getSame(TAddress address);
 }
 
 
