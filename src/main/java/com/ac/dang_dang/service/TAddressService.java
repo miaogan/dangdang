@@ -10,4 +10,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface TAddressService extends IService<TAddress> {
 
+    void add(TAddress address);
 }

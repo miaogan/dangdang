@@ -3,6 +3,7 @@ package com.ac.dang_dang.mapper;
 import com.ac.dang_dang.entity.TAddress;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 /**
 * @author 75679
@@ -12,7 +13,9 @@ import org.apache.ibatis.annotations.Mapper;
 */
 @Mapper
 public interface TAddressMapper extends BaseMapper<TAddress> {
-
+    @Select("select * from  t_address where name=#{name} and mobile=#{mobile} and province={province} and city=#{city} and district=#{district} and town=#{town} " +
+            "and address=#{address} and user_id=#{userId}")
+    TAddress getByname(TAddress address);
 }
 
 

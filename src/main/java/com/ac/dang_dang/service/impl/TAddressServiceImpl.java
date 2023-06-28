@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ac.dang_dang.entity.TAddress;
 import com.ac.dang_dang.service.TAddressService;
 import com.ac.dang_dang.mapper.TAddressMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,7 +15,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class TAddressServiceImpl extends ServiceImpl<TAddressMapper, TAddress>
     implements TAddressService{
-
+    @Autowired
+    TAddressMapper AddressMapper;
+    @Override
+    public void add(TAddress address) {
+        TAddress exitAddress = AddressMapper.getByname(address);
+        if (exitAddress==null){
+            AddressMapper.insert(address);
+        }
+    }
 }
 
 
