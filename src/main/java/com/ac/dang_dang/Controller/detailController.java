@@ -18,6 +18,9 @@ public class detailController {
     public detailController(TBookServiceImpl BookService) {
         this.BookService = BookService;
     }
+    /**
+     * 获取图书信息
+     */
     @GetMapping("/BookInfo")
     public Result getBookInfo(String name){
         TBook book = BookService.getByName(name);
