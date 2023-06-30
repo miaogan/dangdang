@@ -1,8 +1,15 @@
 spring:
   redis:
-    host: 192.160.110.128
+    host: 192.168.110.128
     port: 6379
-    timeout: 5000
+    password: 123456
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 2
+    timeout: 10000
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/dangdb

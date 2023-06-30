@@ -26,7 +26,7 @@ public class TAddressServiceImpl extends ServiceImpl<TAddressMapper, TAddress>
 
 
     @Override
-    public Integer update(TAddress address) {
+    public Integer updates(TAddress address) {
         return AddressMapper.update(address);
     }
 

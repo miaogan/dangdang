@@ -11,7 +11,7 @@ import java.util.List;
 * @createDate 2023-06-26 20:05:06
 */
 public interface TAddressService extends IService<TAddress> {
-    Integer update(TAddress address);
+    Integer updates(TAddress address);
 
     List<TAddress> getAllAddress(String userId);
 

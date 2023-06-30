@@ -15,7 +15,6 @@ import java.util.List;
 */
 @Mapper
 public interface TAddressMapper extends BaseMapper<TAddress> {
-
     Integer update(TAddress address);
     @Select("select * from t_address where user_id=#{userId}")
     List<TAddress> getAll(String userId);

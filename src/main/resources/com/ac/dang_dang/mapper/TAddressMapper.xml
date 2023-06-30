@@ -15,7 +15,7 @@
             <result property="address" column="address" jdbcType="VARCHAR"/>
             <result property="userId" column="user_id" jdbcType="INTEGER"/>
     </resultMap>
-        <update id="update">
+        <update id="updates">
             update t_address
             <set>
                 <if test="name != null and name!=''">

@@ -9,10 +9,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author 75679
  */
 @Configuration
-public class WebMvcConfig implements WebMvcConfigurer {
+public class WebMVCConfig implements WebMvcConfigurer {
     private final LoginInterceptor loginInterceptor;
 
-    public WebMvcConfig(LoginInterceptor loginInterceptor) {
+    public WebMVCConfig(LoginInterceptor loginInterceptor) {
         this.loginInterceptor = loginInterceptor;
     }
 

@@ -33,7 +33,7 @@ public class placeOrderController {
      */
     @PostMapping("/updateAddress")
     public Result updateAddress(@RequestBody TAddress address) {
-        AddressService.update(address);
+        AddressService.updates(address);
         return Result.success("更新成功");
     }
     /**
