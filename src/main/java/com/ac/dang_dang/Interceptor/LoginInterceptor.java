@@ -12,13 +12,18 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 获取 session 中的用户信息
         Object userObj = request.getSession().getAttribute("user");
+        String url = request.getRequestURI();
+        // 不拦截验证码请求
+        if (url.contains("/user/image")) {
+            return true;
+        }
         if (userObj == null || !(userObj instanceof TUser)) {
             // 用户未登录，跳转到登录页面
-            response.sendRedirect("/login");
+            response.sendRedirect("/login.html");
             return false;
+        } else {
+            // 用户已登录，放行
+            return true;
         }
-
-        // 用户已登录，放行请求
-        return true;
     }
 }

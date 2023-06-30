@@ -4,6 +4,7 @@ import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.crypto.digest.DigestUtil;
+import com.ac.dang_dang.DTO.UserLoginDTO;
 import com.ac.dang_dang.DTO.UserRegisterDTO;
 import com.ac.dang_dang.entity.TUser;
 import com.ac.dang_dang.service.impl.TUserServiceImpl;
@@ -25,7 +26,7 @@ public class userController {
     final
     TUserServiceImpl UserService;
 
-    public userController(TUserServiceImpl UserService) {
+    public userController(@RequestBody  TUserServiceImpl UserService) {
         this.UserService = UserService;
     }
 
@@ -33,7 +34,9 @@ public class userController {
      * 登录
      */
     @PostMapping("/login")
-    public Result userLogin(String nickname, String password) {
+    public Result userLogin(@RequestBody UserLoginDTO userLoginDTO) {
+        String nickname=userLoginDTO.getNickname();
+        String password=userLoginDTO.getPassword();
         String saltByNickName = UserService.getSaltByNickName(nickname);
         System.out.println("saltByNickName = " + saltByNickName);
         String relPassword = DigestUtil.md5Hex(password + saltByNickName);

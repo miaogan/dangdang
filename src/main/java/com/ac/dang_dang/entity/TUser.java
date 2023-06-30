@@ -8,7 +8,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
@@ -16,6 +18,8 @@ import lombok.Data;
  */
 @TableName(value ="t_user")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class TUser implements Serializable {
     /**
      * 
