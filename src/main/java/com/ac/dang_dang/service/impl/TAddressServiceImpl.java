@@ -26,12 +26,12 @@ public class TAddressServiceImpl extends ServiceImpl<TAddressMapper, TAddress>
 
     @Override
     public Integer updates(TAddress address) {
-        return AddressMapper.update(address);
+        return AddressMapper.updates(address);
     }
 
     @Override
-    public List<TAddress> getAllAddress(String userId) {
-        return AddressMapper.getAll(userId);
+    public List<TAddress> getAllAddress(Integer userId,Integer addressId) {
+        return AddressMapper.getAll(userId,addressId);
     }
 
     @Override

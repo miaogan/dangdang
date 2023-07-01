@@ -13,7 +13,7 @@ import java.util.List;
 public interface TAddressService extends IService<TAddress> {
     Integer updates(TAddress address);
 
-    List<TAddress> getAllAddress(String userId);
+    List<TAddress> getAllAddress(Integer userId,Integer addressId);
 
     TAddress getSameAddress(TAddress address);
 }

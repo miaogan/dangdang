@@ -43,5 +43,11 @@
             where
             address_id=#{addressId}
         </update>
+    <select id="getAll" resultType="com.ac.dang_dang.entity.TAddress">
+        select *from t_address where user_id=#{userId}
+        <if test="addressId !=null and addressId!=''">
+            and address_Id=#{addressId}
+        </if>
+    </select>
 
 </mapper>

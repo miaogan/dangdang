@@ -2,19 +2,18 @@ package com.ac.dang_dang.Controller;
 
 import com.ac.dang_dang.DTO.BookDTO;
 import com.ac.dang_dang.entity.TBook;
-import com.ac.dang_dang.entity.TItem;
-import com.ac.dang_dang.entity.TUser;
+import com.ac.dang_dang.entity.TOrder;
 import com.ac.dang_dang.service.impl.TOrderServiceImpl;
 import com.ac.dang_dang.util.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 @Slf4j
 @RestController
@@ -22,22 +21,53 @@ import javax.annotation.Resource;
 public class orderController {
     final
     TOrderServiceImpl OrderService;
-    @Resource
-    private RedisTemplate<String, String> redisTemplate;
+
     public orderController(TOrderServiceImpl OrderService) {
         this.OrderService = OrderService;
     }
-    /**
-     * 加入购物车
-     */
 
+    /**
+     * 创造订单
+     */
     @PostMapping
-    public Result addItem(@RequestBody BookDTO bookDTO){
-        log.info("接收到的参数为：{}", bookDTO);
-        TBook tBook = bookDTO.getBook();
-        log.info("tBook = {}", tBook);
-        Integer userId = bookDTO.getUserId();
-        System.out.println("userId = " + userId);
-        return Result.success(bookDTO);
+    public Result CreatedOrder(@RequestBody TOrder order) {
+        OrderService.save(order);
+        return Result.success(order);
+    }
+    /**
+     * 修改订单状态
+     */
+    @PutMapping
+    public Result PutOrder(Integer orderId, String status) {
+        Integer integer = OrderService.UpdateStatus(orderId, status);
+        if (integer==1){
+            return Result.success();
+        }else {
+            return Result.error("操作失败");
+        }
+
+    }
+    /**
+     * 删除订单
+     */
+    @DeleteMapping
+    public Result DeleteOrder(@RequestBody List<Integer>orderIds){
+        boolean b = OrderService.removeByIds(orderIds);
+        if (b) {
+            return Result.success();
+        }else {
+            return Result.error("删除失败");
+        }
+    }
+    /**
+     * 获取所有订单
+     */
+    @GetMapping
+    public Result GetOrder(Integer userId){
+        List<TOrder> orders = OrderService.getOrderByUserId(userId);
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("orders", orders);
+        return Result.success(data);
     }
 }

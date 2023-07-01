@@ -3,6 +3,8 @@ package com.ac.dang_dang.service;
 import com.ac.dang_dang.entity.TOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
 * @author 75679
 * @description 针对表【t_order】的数据库操作Service
@@ -10,4 +12,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface TOrderService extends IService<TOrder> {
 
+    Integer UpdateStatus(Integer orderId,String status);
+
+    List<TOrder> getOrderByUserId(Integer userId);
 }

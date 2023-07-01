@@ -3,11 +3,10 @@ package com.ac.dang_dang.DTO;
 import com.ac.dang_dang.entity.TBook;
 import lombok.Data;
 
-/**
- * @author 75679
- */
+import java.util.Map;
+
 @Data
-public class BookDTO{
-    private TBook book;
+public class BookDTO {
+    private CartBooksDTO items;
     private Integer userId;
 }

@@ -15,9 +15,8 @@ import java.util.List;
 */
 @Mapper
 public interface TAddressMapper extends BaseMapper<TAddress> {
-    Integer update(TAddress address);
-    @Select("select * from t_address where user_id=#{userId}")
-    List<TAddress> getAll(String userId);
+    Integer updates(TAddress address);
+    List<TAddress> getAll(Integer userId,Integer addressId);
     @Select("select * from  t_address where name=#{name} and mobile=#{mobile} and province=#{province} and city=#{city} and district=#{district} and town=#{town} " +
             "and address=#{address} and user_id=#{userId}")
     TAddress getSame(TAddress address);
