@@ -1,77 +1,53 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Login</title>
-  <!-- 引入 Bootstrap 样式 -->
-  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.5.3/css/bootstrap.min.css">
+  <title>用户登录</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-<div id="app" class="container mt-5">
-  <div class="card">
-    <div class="card-header">
-      Login
-    </div>
-    <div class="card-body">
-      <form>
-        <div class="form-group">
-          <label for="username">Username:</label>
-          <input type="text" id="username" class="form-control" v-model="username" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" class="form-control" v-model="password" required>
-        </div>
-        <div class="form-group">
-          <button type="button" class="btn btn-primary" @click="login">Login</button>
-        </div>
-      </form>
-      <div v-if="message" class="alert alert-danger" role="alert">
-        {{ message }}
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- 引入 Vue.js -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
-<!-- 引入 Axios -->
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+<div id="app"></div>
 <script>
-  // 定义一个简单的响应对象
-  function Result(code, msg, data) {
-    this.code = code;
-    this.msg = msg;
-    this.data = data;
-  }
-
   new Vue({
     el: '#app',
     data: {
-      username: '',
+      nickname: '',
       password: '',
-      message: ''
+      message: '',
+      messageType: ''
     },
     methods: {
-      login: function() {
-        // 发送登录请求
-        axios.post('/user/login', {
-          nickname: this.username,
+      // 用户登录
+      userLogin: function () {
+        const data = {
+          nickname: this.nickname,
           password: this.password
-        }).then((response) => {
-          // 登录成功，保存用户信息到本地存储
-          localStorage.setItem('user', JSON.stringify(response.data));
-          // 跳转到首页
-          window.location.href = '/';
-          alert("登录成功，欢迎"+this.username)
-        }).catch((error) => {
-          // 登录失败，显示错误信息
-          this.message = error.response.data.msg;
-        });
+        };
+        axios.post('http://localhost:8080/user/login', data)
+                .then(function (response) {
+                  if (response.data.code === 200) {
+                    window.location.href = '/index.html';
+                  } else {
+                    this.message = response.data.msg;
+                    this.messageType = 'error';
+                  }
+                }.bind(this))
+                .catch(function (error) {
+                  console.log(error);
+                });
       }
-    }
+    },
+    template: `
+      <div>
+      <div v-if="message" :class="messageType">{{ message }}</div>
+      <div>
+        <input type="text" placeholder="用户名" v-model="nickname">
+        <input type="password" placeholder="密码" v-model="password">
+        <button @click="userLogin">登录</button>
+      </div>
+      </div>
+    `
   });
 </script>
 </body>

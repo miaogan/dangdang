@@ -50,7 +50,7 @@ public class userController {
         HttpServletRequest request = attributes.getRequest();
         HttpSession session = request.getSession();
         session.setAttribute("user", login);
-        return Result.success();
+        return Result.success(nickname);
     }
 
     /**
