@@ -34,9 +34,9 @@ public class userController {
      * 登录
      */
     @PostMapping("/login")
-    public Result userLogin(@RequestBody UserLoginDTO userLoginDTO) {
-        String nickname=userLoginDTO.getNickname();
-        String password=userLoginDTO.getPassword();
+    public Result userLogin(@RequestBody UserLoginDTO user) {
+        String nickname=user.getUser().getNickname();
+        String password=user.getUser().getPassword();
         String saltByNickName = UserService.getSaltByNickName(nickname);
         System.out.println("saltByNickName = " + saltByNickName);
         String relPassword = DigestUtil.md5Hex(password + saltByNickName);

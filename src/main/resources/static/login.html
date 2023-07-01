@@ -1,54 +1,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>用户登录</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
 <div id="app"></div>
 <script>
-  new Vue({
-    el: '#app',
-    data: {
-      nickname: '',
-      password: '',
-      message: '',
-      messageType: ''
-    },
-    methods: {
-      // 用户登录
-      userLogin: function () {
-        const data = {
-          nickname: this.nickname,
-          password: this.password
-        };
-        axios.post('http://localhost:8080/user/login', data)
-                .then(function (response) {
-                  if (response.data.code === 200) {
-                    window.location.href = '/index.html';
-                  } else {
-                    this.message = response.data.msg;
-                    this.messageType = 'error';
-                  }
-                }.bind(this))
-                .catch(function (error) {
-                  console.log(error);
-                });
-      }
-    },
-    template: `
-      <div>
-      <div v-if="message" :class="messageType">{{ message }}</div>
-      <div>
-        <input type="text" placeholder="用户名" v-model="nickname">
-        <input type="password" placeholder="密码" v-model="password">
-        <button @click="userLogin">登录</button>
-      </div>
-      </div>
-    `
-  });
+
+    new Vue({
+        el: '#app',
+        data: {
+            user: {
+                nickname: '',
+                password: ''
+            },
+            message: '',
+            messageType: ''
+        },
+        methods: {
+            // 用户登录
+            userLogin: function () {
+                axios.post('http://localhost:8080/user/login', {
+                    datas
+                })
+                    .then(function (response) {
+
+                        if (response.data.code === 200) {
+                            window.location.href = '/index.html';
+                        } else {
+                            this.message = response.data.msg;
+                            this.messageType = 'error';
+                        }
+                    }.bind(this))
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        },
+        template: `
+          <div>
+          <div v-if="message" :class="messageType">{{ message }}</div>
+          <div>
+            <input type="text" placeholder="用户名" v-model="nickname">
+            <input type="password" placeholder="密码" v-model="password">
+            <button @click="userLogin">登录</button>
+          </div>
+          </div>
+        `
+    });
 </script>
 </body>
 </html>
