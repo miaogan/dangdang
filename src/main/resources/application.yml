@@ -1,8 +1,8 @@
 spring:
   redis:
-    host: 192.168.110.128
+    host: 47.94.202.15
     port: 6379
-    password: 123456
+    password: myredis123
     jedis:
       pool:
         max-active: 8
@@ -24,11 +24,16 @@ spring:
     type: ehcache
     ehcache:
       config: classpath:ehcache.xml
-mybatis:
+  main:
+    banner-mode: off
+mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     map-underscore-to-camel-case: true
     use-generated-keys: true
+  global-config:
+    banner: off
+  mapper-locations: ./com/ac/dang_dang/mapper/*.xml
 file:
   upload:
     path: E:\IdeaProjects\dang_dang\src\main\resources\static\img\upload

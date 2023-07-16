@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 @SpringBootApplication
+
 public class DangDangApplication {
 
     public static void main(String[] args) {

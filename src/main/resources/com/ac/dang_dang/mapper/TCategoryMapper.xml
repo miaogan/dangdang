@@ -10,8 +10,7 @@
             <result property="levels" column="levels" jdbcType="INTEGER"/>
             <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
     </resultMap>
-    <resultMap id="categoryWithChildResultMap" extends="BaseResultMap"
-               type="com.ac.dang_dang.DTO.CategoryDTO">
+    <resultMap id="categoryWithChildResultMap" extends="BaseResultMap" type="com.ac.dang_dang.DTO.CategoryDTO">
         <collection property="childCategoryList" ofType="com.ac.dang_dang.entity.TCategory" autoMapping="true">
             <id column="c_category_id" property="categoryId"/>
             <result column="c_name" property="name"/>
