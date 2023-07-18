@@ -2,11 +2,11 @@ package com.ac.dang_dang.Controller;
 
 import com.ac.dang_dang.DTO.BookDTO;
 import com.ac.dang_dang.DTO.CartBooksDTO;
+import com.ac.dang_dang.DTO.InfoDTO;
 import com.ac.dang_dang.DTO.UpdateCartDTO;
 import com.ac.dang_dang.util.Result;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
@@ -17,8 +17,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/Carts")
 public class CartController {
-    @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
+    public CartController(RedisTemplate<String, Object> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
     /**
      * 加入购物车
      */
@@ -47,17 +49,27 @@ public class CartController {
             log.warn("用户：{}的购物车为空", userId);
             return Result.error("购物车为空");
         }
+        InfoDTO infoDTO=new InfoDTO();
+        Double allSaveMoney=0.0;
+        Double allRealMoney=0.0;
         List<CartBooksDTO> cartBooksDTOList = new ArrayList<>();
         for (Object cartItem : cartItemsMap.values()) {
             String cartItemStr = (String) cartItem;
             try {
                 CartBooksDTO cartBooksDTO = JSON.parseObject(cartItemStr, CartBooksDTO.class);
+                double v = cartBooksDTO.getCount() * cartBooksDTO.getPrice();
+                double s = cartBooksDTO.getCount() * cartBooksDTO.getDprice();
+                allSaveMoney=s+allSaveMoney;
+                allRealMoney=v+allRealMoney;
                 cartBooksDTOList.add(cartBooksDTO);
             } catch (Exception e) {
                 log.error("反序列化CartBooksDTO对象出错：{}", e.getMessage());
             }
         }
-        return Result.success(cartBooksDTOList);
+        infoDTO.setCartBooksDTOList(cartBooksDTOList);
+        infoDTO.setSaveMoney(allSaveMoney);
+        infoDTO.setRealMoney(allRealMoney);
+        return Result.success(infoDTO);
     }
     /**
      * 更改数量
